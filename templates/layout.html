@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Flack {% block title %}{% endblock %}</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+        {% block head %}
+        {% endblock %}
+    </head>
+    <body>
+        <div class="container">
+          <div class="row">
+            <div class="col-sm">
+            </div>
+            <div class="col-6">
+              <h1 class="text-center">Flack</h1>
+            </div>
+            <div class="col-sm">
+              <b><a href = "{{ url_for('logout') }}">Logout</a></b>
+            </div>
+          </div>
+        </div>
+
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <hr>
+            </div>
+        </div>
+
+        <div class="container">
+          <div class="row">
+            <div class="col-sm">
+              {% block sidebar %}
+              {% endblock %}
+            </div>
+            <div class="col-6">
+              {% block body %}
+              {% endblock %}
+            </div>
+            <div class="col-sm">
+            </div>
+          </div>
+        </div>
+    </body>
+</html>
