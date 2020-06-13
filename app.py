@@ -15,15 +15,7 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 socketio = SocketIO(app)
 
-# class Message:
-#     def __init__(self, content, author, channel):
-#         self.content=content
-#         self.author=author
-#         self.channel=channel
-#         self.date=datetime.now(tz=pytz.utc)
-
-votes = {"yes": 0, "no": 0, "maybe": 0}
-users = ['jim']
+users = []
 channels = {'general': []} ## initialise channels dict with general channel
 channelNames = ['general']
 
@@ -37,11 +29,11 @@ def setCurrentChannel(channelName):
     session["current_channel"] = channelName
 
 def getCurrentChannel():
-    if not session.get("current_channel", False):
-        currentChannel=channels[0]
+    current_channel = session.get("current_channel", False)
+    if current_channel:
+        return current_channel
     else:
-        currentChannel = session["current_channel"]
-    return currentChannel
+        return False
 
 def getCurrentUser():
     user = session.get("username", False)
@@ -61,12 +53,12 @@ def before_request():
 def login():
     if request.method=='POST':
         username = request.form.get("registerUsername")
-        if username not in users:
+        if (username in users) or (username == ''):
+            return render_template("login.html", message="Username already taken.")
+        else:
             users.append(username)
             session["username"] = username
             return redirect(url_for("index"))
-        else:
-            return render_template("login.html", message="Username already taken.")
     else: # if method is GET
         if session.get("username", False):
             return redirect(url_for("index"))
@@ -76,20 +68,33 @@ def login():
 @app.route("/logout")
 def logout():
     currentUser = getCurrentUser()
+    currentChannel = getCurrentChannel()
     if currentUser:
         session.pop('username', None)
+        if currentUser in users:
+            users.remove(currentUser)
+    if currentChannel:
+        session.pop('current_channel', None)
     return redirect(url_for("index"))
 
 @app.route("/")
 def index():
-    currentChannel = 'general'
-    data = {'channel': currentChannel, 'channels': channelNames }
-    return render_template("index.html", votes=votes, data=data)
+
+    currentChannel = getCurrentChannel()
+    if not currentChannel or (currentChannel not in channelNames):
+        currentChannel = 'general' # if channel not in session, default to general
+        setCurrentChannel(currentChannel)
+    data = {'channel': currentChannel, 'channels': channelNames, 'users': users }
+    return render_template("index.html", data=data)
 
 @app.route("/channel/<channel>")
 def channel(channel):
-    data = {'channel': channel, 'channels': channelNames }
-    return render_template("index.html", votes=votes, data=data)
+    if channel not in channelNames:
+        return redirect(url_for("index"))
+    else:
+        setCurrentChannel(channel)
+        data = {'channel': channel, 'channels': channelNames, 'users': users }
+        return render_template("index.html", data=data)
 
 @app.route("/channel/messages/<channel>", methods=['GET'])
 def messages(channel):
@@ -107,13 +112,6 @@ def messages(channel):
 
 @socketio.on("send message")
 def send(data):
-    print("===============================================")
-    print("SO YOU WANT TO SEND A MESSAGE")
-    print("===============================================")
-
-    print(data["content"])
-    print(data["channel"])
-    # print(data["timestamp"])
 
     content = data["content"]
     channel = data["channel"]

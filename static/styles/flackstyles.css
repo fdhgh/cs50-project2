@@ -1,0 +1,41 @@
+table#message_table {
+  table-layout: fixed;
+  width: 100%;
+  word-wrap: break-word;
+
+}
+
+th,td {
+  text-align: left;
+  vertical-align: text-top;
+  padding: 2%;
+  overflow: hidden;
+  /* border-bottom:1px dotted; */
+}
+
+h4 {
+}
+
+table.side_table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+div#message_scrollbox{
+  display:block;
+  width:100%;
+  height:300px;
+  overflow-y: scroll;
+}
+
+.padding5{
+  padding-top: 5%;
+}
+
+.padding10{
+  padding-top: 10%;
+}
+
+.bordersolid1{
+  border-top: 1px solid;
+}

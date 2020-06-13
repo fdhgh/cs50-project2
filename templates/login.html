@@ -8,9 +8,9 @@
 
 <form action="{{ url_for('login') }}" method="post">
   <label for="username">Username:</label><br>
-  <input type="text" id="registerUsername" name="registerUsername"><br>
+  <input type="text" class="form-control" id="registerUsername" name="registerUsername" maxlength="20"><br>
   <p class="h7 mb-4">{{ message }}</p>
-  <input type="submit" id="submit" name="submit" value="Submit">
+  <button class="btn btn-primary" type="submit" id="submit" name="submit">Login</button>
 </form>
 
 

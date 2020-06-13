@@ -6,55 +6,73 @@
 
 {% block head %}
       <script src="{{ url_for('static', filename='index.js') }}"></script>
-      <meta id="channel-messages-data" data-channel="{{data.channel}}" data-messages="{{data.messages}}" data-channels="{{data.channels}}">
+      <!-- <meta id="channel-messages-data" data-channel="{{data.channel}}" data-messages="{{data.messages}}" data-channels="{{data.channels}}"> -->
 {% endblock %}
 
 {% block sidebar %}
-  <table id="channel_table">
-    <tbody>
-    {% for ch in data.channels %}
-      {% if ch == data.channel %}
-        <tr>
-            <td><b><a href="{{ url_for('channel', channel=ch) }}">{{ ch }}</a></b></td>
-        </tr>
-      {% else %}
-        <tr>
-            <td><a href="{{ url_for('channel', channel=ch) }}">{{ ch }}</a></td>
-        </tr>
-      {% endif %}
-    {% endfor %}
-    </tbody>
-  </table>
+  <div><h4 id="channel_table_header">Channels</h4></div>
+  <div class="padding5">
+    <table id="channel_table" class="side_table">
+      <tbody>
+      {% for ch in data.channels %}
+        {% if ch == data.channel %}
+          <tr>
+              <td><b><a href="{{ url_for('channel', channel=ch) }}">{{ ch }}</a></b></td>
+          </tr>
+        {% else %}
+          <tr>
+              <td><a href="{{ url_for('channel', channel=ch) }}">{{ ch }}</a></td>
+          </tr>
+        {% endif %}
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="padding5">
+    <form id="channelForm">
+      <!-- <label for="newChannel">New Channel:</label><br> -->
+      <input type="text" class="form-control" id="newChannel" name="newChannel" maxlength="20" placeholder="New channel..."><br>
+      <!-- <input type="submit" id="submit_channel" name="submit_channel" value="Add"> -->
+      <button class="btn btn-primary" id="submit_channel" name="submit_channel">Add</button>
+    </form>
+  </div>
 
-  <form id="channelForm">
-    <label for="newChannel">New Channel:</label><br>
-    <input type="text" id="newChannel" name="newChannel"><br>
-    <input type="submit" id="addChannel" name="addChannel" value="Add">
-  </form>
-  <button id="sendChannel">ADD CHANNEL</button>
+  <div class="padding10">
+  <div class="padding5"><h4>Users</h4></div>
+    <table class="side_table">
+      <tbody>
+      {% for usr in data.users %}
+          <tr>
+              <td><p>{{ usr }}</p></td>
+          </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
 
 {% endblock %}
 
 {% block body %}
 
-  <div>Yes Votes: <span id="yes">{{ votes["yes"] }}</span></div>
-  <div>No Votes: <span id="no">{{ votes["no"] }}</span></div>
-  <div>Maybe Votes: <span id="maybe">{{ votes["maybe"] }}<span></div>
-  <hr>
-  <button data-vote="yes">Yes</button>
-  <button data-vote="no">No</button>
-  <button data-vote="maybe">Maybe</button>
+  <div><h4 id="message_table_header">{{ data.channel }}</h4></div>
 
-  <table id="message_table">
-    <th colspan="3" id="message_table_header">{{ data.channel }}</th>
-  </table>
+  <div id="message_scrollbox" class="padding5 bordersolid1">
+    <table id="message_table">
+      <colgroup>
+        <col style="width:20%">
+        <col style="width:60%">
+        <col style="width:20%">
+      </colgroup>
+    </table>
+  </div>
 
-  <form id="messageForm">
-    <label for="message">Message:</label><br>
-    <input type="text" id="message" name="message"><br>
-    <input type="submit" id="send" name="send" value="Send">
-  </form>
+  <div class="padding5">
+    <form id="messageForm">
 
-  <button id="sendTest">Send TEST</button>
+        <input type="text" class="form-control" id="message" name="message" maxlength="500" placeholder="Type your message here..."/><br>
+        <button class="btn btn-primary" id="send" name="send">Send</button>
+
+    </form>
+  </div>
 
 {% endblock %}
