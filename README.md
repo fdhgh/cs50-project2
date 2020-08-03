@@ -13,5 +13,5 @@ Chat application designed to meet the requirements:
 
 
 Future improvements:
-* General UX such as Javascript enhancements, modernised components, stronger branding
+* General UX such as Javascript enhancements, modernised components, stronger branding, and accessibility
 * Security such as enhanced user login, logout, and password recovery features
