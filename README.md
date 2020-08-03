@@ -10,3 +10,8 @@ Chat application designed to meet the requirements:
 * Messages View: Once a channel is selected, the user should see any messages that have already been sent in that channel, up to a maximum of 100 messages. The app should only store the 100 most recent messages per channel in server-side memory.
 * Sending Messages: Once in a channel, users should be able to send text messages to others the channel. When a user sends a message, their display name and the timestamp of the message should be associated with the message. All users in the channel should then see the new message (with display name and timestamp) appear on their channel page. Sending and receiving messages should NOT require reloading the page.
 * Remembering the Channel: If a user is on a channel page, closes the web browser window, and goes back to the web application, the application should remember what channel the user was on previously and take the user back to that channel.
+
+
+Future improvements:
+* General UX such as Javascript enhancements, modernised components, stronger branding
+* Security such as enhanced user login, logout, and password recovery features
